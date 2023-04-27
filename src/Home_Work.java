@@ -12,6 +12,9 @@ public class Home_Work {
   //
   // Для введённого пользователем месяца напишите, к какому именно времени года относится
   // выбранный месяц.
+
+  private static final String sep = ",";
+
   private enum Month {
     JANUARY, // 0
     FEBRUARY,
@@ -31,7 +34,7 @@ public class Home_Work {
     WINTER,
     SPRING,
     SUMMER,
-    FALL, // AUTUMN
+    AUTUMN
   }
 
 
@@ -41,33 +44,39 @@ public class Home_Work {
       case DECEMBER, JANUARY, FEBRUARY -> Season.WINTER;
       case MARCH, APRIL, MAY -> Season.SPRING;
       case JUNE, JULY, AUGUST -> Season.SUMMER;
-      case SEPTEMBER, OCTOBER, NOVEMBER -> Season.FALL;
+      case SEPTEMBER, OCTOBER, NOVEMBER -> Season.AUTUMN;
     };
   }
 
-  private static final String sep = ",";
-
-  public static void main(String[] args) throws IOException {
-    Map<Month, Integer> readMonth = new HashMap<>();
-    Scanner fileInput = new Scanner(new File("res/month.csv"));
+  private static Map<Month, Integer> readMonth(String fileName) throws IOException {
+    Map<Month, Integer> daysPerMonth = new HashMap<>();
+    Scanner fileInput = new Scanner(new File(fileName));
     while (fileInput.hasNext()) {
+      ;
       String line = fileInput.nextLine();
       int sepIndex = line.indexOf(sep);
-      if (sepIndex != -1)
+      if (sepIndex != -1) {
         ;
-      String monthStr = line.substring(0, sepIndex);
-      String daysStr = line.substring(sepIndex + 1);
-      System.out.println(monthStr + " - " + daysStr);
+        String monStr = line.substring(0, sepIndex);
+        String dayStr = line.substring(sepIndex + 1);
+        Month month = Month.valueOf(monStr);
+        int days = Integer.parseInt(dayStr);
+        daysPerMonth.put(month, days);
+      }
     }
     fileInput.close();
+    return daysPerMonth;
+  }
+
+  public static void main(String[] args) throws IOException {
+    Map<Month, Integer> readMonth = readMonth("res/month.csv");
 
     Scanner scanner = new Scanner(System.in);
     System.out.print("Enter the month: ");
     String month = scanner.next();
     Month monthKey = Month.valueOf(month.toUpperCase());
-    System.out.println(month + " is a part of the " + getSeason(monthKey) + " season.");
+    System.out.println(monthKey + " is a part of the " + getSeason(monthKey) + " season.");
+
 
   }
-
-
 }
