@@ -1,4 +1,6 @@
-
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
 
 public class Home_Work {
 
@@ -42,6 +44,27 @@ public class Home_Work {
   }
 
 
+  public static void main(String[] args) {
+    Map<Month, Integer> daysPerMonth = new HashMap<>();
+    daysPerMonth.put(Month.JANUARY, 31);
+    daysPerMonth.put(Month.FEBRUARY, 28); // год не високосный
+    daysPerMonth.put(Month.MARCH, 31);
+    daysPerMonth.put(Month.APRIL, 30);
+    daysPerMonth.put(Month.MAY, 31);
+    daysPerMonth.put(Month.JUNE, 30);
+    daysPerMonth.put(Month.JULY, 31);
+    daysPerMonth.put(Month.AUGUST, 31);
+    daysPerMonth.put(Month.SEPTEMBER, 30);
+    daysPerMonth.put(Month.OCTOBER, 31);
+    daysPerMonth.put(Month.NOVEMBER, 30);
+    daysPerMonth.put(Month.DECEMBER, 31);
 
+    Scanner scanner = new Scanner(System.in);
+    System.out.print("Enter the month: ");
+    String month = scanner.next(); // месяц "как ввели (как строка)"
+    Month monthKey = Month.valueOf(month.toUpperCase()); // месяц "как enum"
+    System.out.println(month + " has " + daysPerMonth.get(monthKey) + " days.");
+    System.out.println(month + " is a part of the " + getSeason(monthKey) + " season.");
 
+  }
 }
