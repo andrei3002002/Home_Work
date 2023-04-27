@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -43,28 +45,29 @@ public class Home_Work {
     };
   }
 
+  private static final String sep = ",";
 
-  public static void main(String[] args) {
-    Map<Month, Integer> daysPerMonth = new HashMap<>();
-    daysPerMonth.put(Month.JANUARY, 31);
-    daysPerMonth.put(Month.FEBRUARY, 28); // год не високосный
-    daysPerMonth.put(Month.MARCH, 31);
-    daysPerMonth.put(Month.APRIL, 30);
-    daysPerMonth.put(Month.MAY, 31);
-    daysPerMonth.put(Month.JUNE, 30);
-    daysPerMonth.put(Month.JULY, 31);
-    daysPerMonth.put(Month.AUGUST, 31);
-    daysPerMonth.put(Month.SEPTEMBER, 30);
-    daysPerMonth.put(Month.OCTOBER, 31);
-    daysPerMonth.put(Month.NOVEMBER, 30);
-    daysPerMonth.put(Month.DECEMBER, 31);
+  public static void main(String[] args) throws IOException {
+    Map<Month, Integer> readMonth = new HashMap<>();
+    Scanner fileInput = new Scanner(new File("res/month.csv"));
+    while (fileInput.hasNext()) {
+      String line = fileInput.nextLine();
+      int sepIndex = line.indexOf(sep);
+      if (sepIndex != -1)
+        ;
+      String monthStr = line.substring(0, sepIndex);
+      String daysStr = line.substring(sepIndex + 1);
+      System.out.println(monthStr + " - " + daysStr);
+    }
+    fileInput.close();
 
     Scanner scanner = new Scanner(System.in);
     System.out.print("Enter the month: ");
-    String month = scanner.next(); // месяц "как ввели (как строка)"
-    Month monthKey = Month.valueOf(month.toUpperCase()); // месяц "как enum"
-    System.out.println(month + " has " + daysPerMonth.get(monthKey) + " days.");
+    String month = scanner.next();
+    Month monthKey = Month.valueOf(month.toUpperCase());
     System.out.println(month + " is a part of the " + getSeason(monthKey) + " season.");
 
   }
+
+
 }
