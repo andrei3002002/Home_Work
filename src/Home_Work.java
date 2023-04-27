@@ -37,6 +37,18 @@ public class Home_Work {
     AUTUMN
   }
 
+  public static void main(String[] args) throws IOException {
+    Map<Month, Integer> readMonth = readMonth("res/month.csv");
+
+    Scanner scanner = new Scanner(System.in);
+    Month parseMonth = parseMonth(scanner);
+    String month = parseMonth.toString();
+    Month monthKey = Month.valueOf(month.toUpperCase());
+    System.out.println("\t" + monthKey + " is a part of the " + getSeason(monthKey) + " season.\n");
+    System.out.println("Have a nice day");
+
+
+  }
 
   //Method
   private static Season getSeason(Month month) {
@@ -68,15 +80,23 @@ public class Home_Work {
     return daysPerMonth;
   }
 
-  public static void main(String[] args) throws IOException {
-    Map<Month, Integer> readMonth = readMonth("res/month.csv");
+  private static Month parseMonth(Scanner scanner) {
 
-    Scanner scanner = new Scanner(System.in);
-    System.out.print("Enter the month: ");
-    String month = scanner.next();
-    Month monthKey = Month.valueOf(month.toUpperCase());
-    System.out.println(monthKey + " is a part of the " + getSeason(monthKey) + " season.");
-
-
+    for (int i = 0; i < Month.values().length; ++i) {
+      // (i + 1) - индекс превратили в номер
+      System.out.println((i + 1) + ". " + Month.values()[i]);
+    }
+    System.out.print("Enter the month in number: ");
+    int answer = scanner.nextInt();
+    scanner.nextLine(); // пропускаем остаток строки
+    System.out.println();
+    // если ввели число меньше 1 или больше размера - выбран некорректный пункт
+    while (answer < 1 || answer > Month.values().length) {
+      System.out.println("Please enter a valid value!");
+      answer = scanner.nextInt();
+      scanner.nextLine(); // пропускаем остаток строки
+    }
+    // (answer - 1) - номер превратили в индекс
+    return Month.values()[answer - 1];
   }
 }
